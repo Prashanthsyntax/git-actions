@@ -8,10 +8,8 @@ on:
 
 jobs:
   build:
-    runs-on: ${{matrix.os}}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ubuntu-latest
+
     permissions:
       contents: read
 
@@ -32,3 +30,11 @@ jobs:
 
       - name: Build with Gradle Wrapper
         run: ./gradlew build
+
+      - name: Build and Push Docker Image
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: prashanth49/my-java-app
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
