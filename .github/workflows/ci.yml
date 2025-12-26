@@ -10,9 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: read
-
     steps:
       - uses: actions/checkout@v4
 
@@ -31,11 +28,11 @@ jobs:
       - name: Build JAR with Gradle
         run: ./gradlew clean build
 
-
       - name: Build and Push Docker Image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: my-java-app
+          tags: latest
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
